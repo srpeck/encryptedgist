@@ -1,0 +1,58 @@
+<html>
+<script src="codemirror-compressed.js"></script>
+<link rel="stylesheet" href="codemirror.css">
+<link rel="stylesheet" href="dialog.css">
+<script src="sjcl.js"></script>
+<body>
+<input type="text" id="f" placeholder="Filename"><input type="text" id="g" placeholder="Gist ID"><button id="sb">Sync</button>
+<script>
+(function(){
+//TODO: URL params for filename, gid (update URL without refresh)?
+var myCM=CodeMirror(document.body,{
+  lineNumbers:true,
+  matchBrackets:true,
+  autofocus:true,
+  lineWrapping:true,
+  keyMap:'vim'
+});
+myCM.setSize(null,"97%");
+var pw=prompt('Content encryption password'),gc=null;
+function req(m,p,s,cb){
+    var r=new XMLHttpRequest();
+    r.open(m,p,true);
+    if(gc)r.setRequestHeader("Authorization","Basic "+btoa(gc));
+    r.send(s);
+    r.onreadystatechange=function(){
+        if(r.readyState===4){
+            if(cb)cb(JSON.parse(r.responseText));
+        }
+    };
+}
+function sync(){
+    if(!gc)gc=prompt('Basic Auth colon-separated GH credential string (e.g., "username:password") - leave blank for anonymous gist');
+    if(myCM.getValue().length===0){
+        if(g.value){
+            req('GET','https://api.github.com/gists/'+g.value,null,function(x){
+                f.value=Object.keys(x.files)[0];
+                var y=x.files[f.value];
+                if(y)myCM.setValue(sjcl.decrypt(pw,y.content));
+            });
+        }
+    }else{
+        if(!f.value)f.value='s.txt';
+        var tmp={'files':{}};
+        tmp.files[f.value]={'content':sjcl.encrypt(pw,myCM.getValue())};
+        var c=JSON.stringify(tmp);
+        if(g.value){
+            req('PATCH','https://api.github.com/gists/'+g.value,c,null);
+        }else{
+            req('POST','https://api.github.com/gists',c,function(x){
+                if(x.id)g.value=x.id;
+            });
+        }
+    }
+}
+window.onbeforeunload=function(){return'You will lose changes if you leave this page without Syncing';};
+sb.onclick=function(){sync();};
+})();
+</script></body></html>
