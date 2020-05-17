@@ -1,22 +1,51 @@
 <html>
+
 <script src="codemirror-compressed.js"></script>
+<script src="emacs.js"></script>
+<script src="vim.js"></script>
+<script src="sublime.js"></script>
 <link rel="stylesheet" href="codemirror.css">
 <link rel="stylesheet" href="dialog.css">
 <script src="sjcl.js"></script>
 <body>
-<input type="text" id="f" placeholder="Filename"><input type="text" id="g" placeholder="Gist ID"><button id="sb">Sync</button>
+<button id="sb"> SYNC BUTTON START</button>
+========
+<button onclick=" localStorage. removeItem('gist-id');">Clear Gist ID </button>
+======
+<button onclick="localStorage.clear();">Clear All Data </button>
+<button onclick=" localStorage. removeItem('gist-crypt-token');">Clear Gist Token </button>
+>>>>>
+<button onclick=" localStorage.setItem('gist-crypt-keymap', JSON.stringify('default'));">Keys: Default </button>
+<button onclick=" localStorage.setItem('gist-crypt-keymap', JSON.stringify('vim'));">Keys: ViM </button>
+<button onclick=" localStorage.setItem('gist-crypt-keymap', JSON.stringify('emacs'));">Keys: Emacs </button>
+<button onclick=" localStorage.setItem('gist-crypt-keymap', JSON.stringify('sublime'));">Keys: Sublime</button> (reload ..) <br>
+
+  <input type="text" id="f" placeholder="Filename"><input type="text" id="g" placeholder="Gist ID">
 <script>
 (function(){
 //TODO: URL params for filename, gid (update URL without refresh)?
+var keymapper=localStorage.getItem('gist-crypt-keymap').replace(/['"]+/g, '');
+if (typeof keymapper == 'undefined' || !keymapper || keymapper.length === 0 || keymapper === "" || !/[^\s]/.test(keymapper) || /^\s*$/.test(keymapper) || keymapper.replace(/\s/g,"") === "")
+      {
+      var keymapper='vim';
+      localStorage.setItem('gist-crypt-keymap', JSON.stringify(keymapper));
+     }
 var myCM=CodeMirror(document.body,{
   lineNumbers:true,
   matchBrackets:true,
   autofocus:true,
   lineWrapping:true,
-  keyMap:'vim'
+  keyMap: keymapper
 });
+// init addon stuff
+document.querySelector('#sb').textContent = 'LOAD gist';
+document.querySelector('#g').value=localStorage.getItem('gist-id').replace(/['"]+/g, '');
+//prevent writing a file name before loading
+document.getElementById('f').readOnly=true;
 myCM.setSize(null,"97%");
+//ask localstorage
 var pw=prompt('Content encryption password'),gc=null;
+
 function req(m,p,s,cb){
     var r=new XMLHttpRequest();
     r.open(m,p,true);
@@ -29,6 +58,15 @@ function req(m,p,s,cb){
     };
 }
 function sync(){
+     gc=JSON.parse(localStorage.getItem('gist-crypt-token'));
+     //only ask if localstorage acts weird
+     if (typeof gc == 'undefined' || !gc || gc.length === 0 || gc === "" || !/[^\s]/.test(gc) || /^\s*$/.test(gc) || gc.replace(/\s/g,"") === "")
+      {
+      gc=prompt('Basic Auth colon-separated GH credential string (e.g., "username:TOKEN") - leave blank for anonymous gist(seems not working)')
+      localStorage.setItem('gist-crypt-token', JSON.stringify(gc));
+      }
+
+
     if(!gc)gc=prompt('Basic Auth colon-separated GH credential string (e.g., "username:password") - leave blank for anonymous gist');
     if(myCM.getValue().length===0){
         if(g.value){
@@ -53,6 +91,6 @@ function sync(){
     }
 }
 window.onbeforeunload=function(){return'You will lose changes if you leave this page without Syncing';};
-sb.onclick=function(){sync();};
+sb.onclick=function(){ localStorage.setItem('gist-id', JSON.stringify(document.querySelector('#g').value)); ;sync();document.querySelector('#sb').textContent = 'Save gist';document.getElementById('f').readOnly=false; };
 })();
 </script></body></html>
