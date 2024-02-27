@@ -5,7 +5,7 @@
     border: 1px solid black;
     
     /* ENHANCEMENT */
-    //background-image: url('https://source.unsplash.com/user/aryakrisdyantara');
+    /* background-image: url('https://source.unsplash.com/user/aryakrisdyantara'); */
     background-position: center center;
     background-size: cover;
     background-repeat: no-repeat;  
@@ -286,7 +286,7 @@
   .CodeMirror pre.CodeMirror-line,
   .CodeMirror pre.CodeMirror-line-like {
     /* Reset some styles that the rest of the page might have set */
-    -moz-border-radius: 0; -webkit-border-radius: 0; border-radius: 0;
+    border-radius: 0; -webkit-border-radius: 0; border-radius: 0;
     border-width: 0;
     background: transparent;
     font-family: inherit;
@@ -397,8 +397,10 @@
 
 .CodeMirror-wrap {
 	opacity: 0.8;
+  border-radius: 10px;
 }
 .container-editor {
+  border-radius: 12px;
 	opacity: 0.8;
 }
 
