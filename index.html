@@ -52,7 +52,8 @@ if (typeof keymapper == 'undefined' || !keymapper || keymapper.length === 0 || k
       var keymapper='vim';
       localStorage.setItem('gist-crypt-keymap', JSON.stringify(keymapper));
      }
-var myCM=CodeMirror(document.body,{
+//var myCM=CodeMirror(document.body,{
+var myCM=CodeMirror(document.getElementById("random"),{
   lineNumbers:true,
   matchBrackets:true,
   autofocus:true,
