@@ -87,7 +87,7 @@ function sync(){
      //only ask if localstorage acts weird
      if (typeof gc == 'undefined' || !gc || gc.length === 0 || gc === "" || !/[^\s]/.test(gc) || /^\s*$/.test(gc) || gc.replace(/\s/g,"") === "")
       {
-      gc=prompt('Basic Auth colon-separated GH credential string (e.g., "username:TOKEN") - leave blank for anonymous gist(seems not working)')
+      gc=prompt('Basic Auth colon-separated GH credential string (e.g., "username:TOKEN") - leave blank for read only operation')
       localStorage.setItem('gist-crypt-token', JSON.stringify(gc));
       }
 
@@ -116,7 +116,9 @@ function sync(){
     }
 }
 window.onbeforeunload=function(){return'You will lose changes if you leave this page without Syncing';};
-sb.onclick=function(){ localStorage.setItem('gist-id', JSON.stringify(document.querySelector('#g').value)); ;sync();document.querySelector('#sb').textContent = 'Save gist';document.getElementById('f').readOnly=false; };
+sb.onclick=function(){ 
+    localStorage.setItem('gist-id', JSON.stringify(document.querySelector('#g').value));
+     sync();document.querySelector('#sb').textContent = 'Save gist';document.getElementById('f').readOnly=false; };
 })();
 
 </script></body></html>
