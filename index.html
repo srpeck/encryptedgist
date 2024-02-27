@@ -62,7 +62,9 @@ var myCM=CodeMirror(document.getElementById("random"),{
 });
 // init addon stuff
 document.querySelector('#sb').textContent = 'LOAD gist';
-document.querySelector('#g').value=localStorage.getItem('gist-id').replace(/['"]+/g, '');
+if(localStorage.getItem('gist-id')) {
+    document.querySelector('#g').value=localStorage.getItem('gist-id').replace(/['"]+/g, '');
+}
 //prevent writing a file name before loading
 document.getElementById('f').readOnly=true;
 myCM.setSize(null,"97%");
