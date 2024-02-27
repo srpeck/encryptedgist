@@ -459,40 +459,54 @@
   box-shadow: rgba(20, 70, 32, .2) 0 1px 0 inset;
 }
 
-
 /* CSS */
 .button-2 {
-  background: #FF4742;
-  border: 1px solid #FF4742;
+  appearance: none;
+  background-color: #eeeeee;
+  border: 1px solid rgba(27, 31, 35, .15);
   border-radius: 6px;
-  box-shadow: rgba(0, 0, 0, 0.1) 1px 2px 4px;
+  box-shadow: rgba(27, 31, 35, .1) 0 1px 0;
   box-sizing: border-box;
-  color: #FFFFFF;
+  color: #fff;
   cursor: pointer;
   display: inline-block;
-  font-family: nunito,roboto,proxima-nova,"proxima nova",sans-serif;
-  font-size: 16px;
-  font-weight: 800;
-  line-height: 16px;
-  min-height: 40px;
-  outline: 0;
-  padding: 12px 14px;
+  font-family: -apple-system,system-ui,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  padding: 6px 16px;
+  position: relative;
   text-align: center;
-  text-rendering: geometricprecision;
-  text-transform: none;
+  text-decoration: none;
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
   vertical-align: middle;
+  white-space: nowrap;
 }
 
-.button-2:hover,
-.button-2:active {
-  background-color: initial;
-  background-position: 0 0;
-  color: #FF4742;
+.button-2:focus:not(:focus-visible):not(.focus-visible) {
+  box-shadow: none;
+  outline: none;
+}
+
+.button-2:hover {
+  background-color: #aaaaaa;
+}
+
+.button-2:focus {
+  box-shadow: rgba(46, 164, 79, .4) 0 0 0 3px;
+  outline: none;
+}
+
+.button-2:disabled {
+  background-color: #bbbbbb;
+  border-color: rgba(27, 31, 35, .1);
+  color: rgba(255, 255, 255, .8);
+  cursor: default;
 }
 
 .button-2:active {
-  opacity: .5;
+  background-color: #298e46;
+  box-shadow: rgba(20, 70, 32, .2) 0 1px 0 inset;
 }
