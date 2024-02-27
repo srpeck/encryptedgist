@@ -23,8 +23,14 @@ improved version:
 
 * has clear buttons for all stored things
 
+
+
 ## Be sure to use a github acces token , basic auth is still supported , but only with token ( PATCH  gives 404 with regular password etc. https://stackoverflow.com/questions/34477537/github-gist-api-patch-doesnt-work )
 
 ![](demo.gif)
 
 MIT License
+
+## credits
+
+#### [random backgrounds from this example](https://codepen.io/omascaros/pen/LYeppN)
