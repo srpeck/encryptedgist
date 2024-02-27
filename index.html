@@ -1,13 +1,17 @@
 <html>
 
-<script src="codemirror-compressed.js"></script>
-<script src="emacs.js"></script>
-<script src="vim.js"></script>
-<script src="sublime.js"></script>
-<link rel="stylesheet" href="codemirror.css">
-<link rel="stylesheet" href="dialog.css">
-<script src="sjcl.js"></script>
-<body>
+<!-- <script src="codemirror-compressed.js"></script>  -->
+<!-- <script src="emacs.js" async defer></script>  -->
+<!-- <script src="vim.js" async defer></script>  -->
+<!-- <script src="sublime.js" async defer></script>  -->
+<script src="merged-scripts.js" async defer></script>
+<!-- <link rel="stylesheet" href="codemirror.css"> -->
+<!-- <link rel="stylesheet" href="dialog.css">  -->
+<link rel="stylesheet" href="merged-styles.css">
+<!-- <script src="sjcl.js"></script> -->
+<body onload="randombg()" >
+    <div id="random">
+        <div class="container editor">
 <button id="sb"> SYNC BUTTON START</button>
 ========
 <button onclick=" localStorage. removeItem('gist-id');">Clear Gist ID </button>
@@ -21,10 +25,25 @@
 <button onclick=" localStorage.setItem('gist-crypt-keymap', JSON.stringify('sublime'));">Keys: Sublime</button> (reload ..) <br>
 
   <input type="text" id="f" placeholder="Filename"><input type="text" id="g" placeholder="Gist ID">
+</div></div>
 <script>
+
+function randombg(){
+  var random= Math.floor(Math.random() * 6) + 0;
+  var bigSize = ["url('https://source.unsplash.com/user/jersey_photos')",
+                 "url('https://source.unsplash.com/user/nimbus_vulpis')",
+                 "url('https://source.unsplash.com/user/aryakrisdyantara')",
+                 "url('https://source.unsplash.com/user/chanwei_snap')",
+                 "url('https://source.unsplash.com/user/neom')"];
+  document.getElementById("random").style.backgroundImage=bigSize[random];
+}
+
+
 (function(){
 //TODO: URL params for filename, gid (update URL without refresh)?
-var keymapper=localStorage.getItem('gist-crypt-keymap').replace(/['"]+/g, '');
+if(localStorage.getItem('gist-crypt-keymap')) {
+    var keymapper=localStorage.getItem('gist-crypt-keymap').replace(/['"]+/g, '');
+} else { var keymapper=""}
 if (typeof keymapper == 'undefined' || !keymapper || keymapper.length === 0 || keymapper === "" || !/[^\s]/.test(keymapper) || /^\s*$/.test(keymapper) || keymapper.replace(/\s/g,"") === "")
       {
       var keymapper='vim';
@@ -93,4 +112,5 @@ function sync(){
 window.onbeforeunload=function(){return'You will lose changes if you leave this page without Syncing';};
 sb.onclick=function(){ localStorage.setItem('gist-id', JSON.stringify(document.querySelector('#g').value)); ;sync();document.querySelector('#sb').textContent = 'Save gist';document.getElementById('f').readOnly=false; };
 })();
+
 </script></body></html>
