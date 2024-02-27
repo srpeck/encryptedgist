@@ -9806,7 +9806,7 @@
     if (!CodeMirror.defaults.mode && name != "null") { CodeMirror.defaults.mode = name; }
     defineMode.apply(this, arguments);
   };
-
+ 
   CodeMirror.defineMIME = defineMIME;
 
   // Minimal default mode.
